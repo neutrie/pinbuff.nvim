@@ -14,12 +14,17 @@ function M.setup(opts)
   require("pinbuff.config"):setup(opts)
 end
 
----Returns a function that sets current bufnr into the `slot`.
+---Returns a function that calls `get_bufnr` and sets its value into the `slot`.
 ---@param slot PBslot
+---@param get_bufnr? function: default is `vim.api.nvim_get_current_buf`
 ---@nodiscard
-function M.setter(slot)
+function M.setter(slot, get_bufnr)
+  get_bufnr = get_bufnr or vim.api.nvim_get_current_buf
   return function()
-    local bufnr = vim.api.nvim_get_current_buf()
+    local bufnr = get_bufnr()
+    if not bufnr then
+      return
+    end
     state.buffers[slot] = bufnr
     state.slots[bufnr] = slot
   end
