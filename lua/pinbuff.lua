@@ -6,8 +6,12 @@ local M = {}
 ---@type PBState
 local state = require("pinbuff.state")
 
+---@type PBWindow
+local window = require("pinbuff.window")
+
+---@param opts? PBConfig.opts
 function M.setup(opts)
-  print(vim.inspect(opts))
+  require("pinbuff.config"):setup(opts)
 end
 
 ---Returns a function that sets current bufnr into the `slot`.
@@ -48,6 +52,21 @@ end
 function M.get_slot(bufnr)
   state:sync()
   return state.slots[bufnr]
+end
+
+---Opens an interactive floating window containing currently pinned buffers.
+---@return table<integer, integer>: handles { bufnr, win }
+function M.open_float()
+  local cursor_pos = { 1, 0 }
+  local entries = window.make_entries()
+  local current_bufnr = vim.api.nvim_get_current_buf()
+  for i, e in ipairs(entries) do
+    if current_bufnr == e.bufnr then
+      cursor_pos[1] = i
+      break
+    end
+  end
+  return window:open_float(entries, cursor_pos)
 end
 
 return M
