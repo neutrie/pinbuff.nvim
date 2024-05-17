@@ -48,7 +48,7 @@ local function ff_bufload()
   local fname = require("telescope.actions.state").get_selected_entry()[1]
   local bufnr = vim.fn.bufadd(fname)
   vim.fn.bufload(bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "buflisted", true)
+  vim.api.nvim_set_option_value("buflisted", true, { buf = bufnr })
   return bufnr
 end
 
@@ -104,7 +104,7 @@ local function fb_bufload()
   local fname = entry[1]
   local bufnr = vim.fn.bufadd(fname)
   vim.fn.bufload(bufnr)
-  vim.api.nvim_buf_set_option(bufnr, "buflisted", true)
+  vim.api.nvim_set_option_value("buflisted", true, { buf = bufnr })
   return bufnr
 end
 
@@ -212,10 +212,10 @@ require("lualine").setup({
     return c
   end,
 
-  -- map of `{name}: {value}` pairs for `nvim_buf_set_option()`
+  -- map of `{name}: {value}` pairs for `nvim_set_option_value()`
   buf_opts = {},
 
-  -- map of `{name}: {value}` pairs for `nvim_win_set_option()`
+  -- map of `{name}: {value}` pairs for `nvim_set_option_value()`
   win_opts = {
     wrap = false,
     scrolloff = 0,
