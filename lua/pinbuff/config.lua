@@ -38,10 +38,10 @@ M.defaults = {
     return c
   end,
 
-  ---@type { [string]: any }: map of `{name}: {value}` pairs for `nvim_buf_set_option()`
+  ---@type { [string]: any }: map of `{name}: {value}` pairs for `nvim_set_option_value()`
   buf_opts = {},
 
-  ---@type { [string]: any }: map of `{name}: {value}` pairs for `nvim_win_set_option()`
+  ---@type { [string]: any }: map of `{name}: {value}` pairs for `nvim_set_option_value()`
   win_opts = {
     wrap = false,
     scrolloff = 0,

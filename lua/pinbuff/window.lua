@@ -31,7 +31,7 @@ function M:open_float(entries, cursor_pos)
   local float_config = config.options.float_config(#entries)
 
   local bufnr = vim.api.nvim_create_buf(false, true)
-  vim.api.nvim_buf_set_option(bufnr, "textwidth", 0)
+  vim.api.nvim_set_option_value("textwidth", 0, { buf = bufnr })
 
   -- set lines and highlights
   for idx, entry in ipairs(entries) do
@@ -57,14 +57,14 @@ function M:open_float(entries, cursor_pos)
     end
   end
 
-  vim.api.nvim_buf_set_option(bufnr, "modifiable", false)
+  vim.api.nvim_set_option_value("modifiable", false, { buf = bufnr })
   for opt, value in pairs(config.options.buf_opts) do
-    vim.api.nvim_buf_set_option(bufnr, opt, value)
+    vim.api.nvim_set_option_value(opt, value, { buf = bufnr })
   end
 
   local win = vim.api.nvim_open_win(bufnr, true, float_config)
   for opt, value in pairs(config.options.win_opts) do
-    vim.api.nvim_win_set_option(win, opt, value)
+    vim.api.nvim_set_option_value(opt, value, { win = win })
   end
 
   -- clamp between first and last line
