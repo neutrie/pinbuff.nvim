@@ -53,7 +53,13 @@ function M:open_float(entries, cursor_pos)
     line_text = { table.concat(line_text) }
     vim.api.nvim_buf_set_lines(bufnr, idx - 1, idx, false, line_text)
     for _, h in ipairs(line_highlights) do
-      vim.api.nvim_buf_add_highlight(bufnr, -1, h.hl_group, idx - 1, h.col_start, h.col_end)
+      vim.hl.range(
+        bufnr,
+        vim.api.nvim_create_namespace("pinbuff_window"),
+        h.hl_group,
+        { idx - 1, h.col_start },
+        { idx - 1, h.col_end }
+      )
     end
   end
 
