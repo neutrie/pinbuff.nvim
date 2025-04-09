@@ -64,7 +64,7 @@ M.defaults = {
 }
 
 ---@type PBConfig.opts
-M.options = {}
+M.options = vim.deepcopy(M.defaults)
 
 ---@param opts? PBConfig.opts
 function M:setup(opts)
