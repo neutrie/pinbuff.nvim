@@ -20,7 +20,7 @@ end
 ---@nodiscard
 function M.setter(slot, get_bufnr)
   get_bufnr = get_bufnr or vim.api.nvim_get_current_buf
-  return function()
+  local pb_setter = function()
     local bufnr = get_bufnr()
     if not bufnr then
       return
@@ -28,19 +28,21 @@ function M.setter(slot, get_bufnr)
     state.buffers[slot] = bufnr
     state.slots[bufnr] = slot
   end
+  return pb_setter
 end
 
 ---Returns a function that jumps to the bufnr in the `slot`.
 ---@param slot PBslot
 ---@nodiscard
 function M.jumper(slot)
-  return function()
+  local pb_jumper = function()
     local bufnr = state.buffers[slot]
     local can_jump = bufnr and vim.api.nvim_buf_is_loaded(bufnr)
     if can_jump then
       vim.api.nvim_set_current_buf(bufnr)
     end
   end
+  return pb_jumper
 end
 
 ---Returns the `bufnr` in the `slot`. Ignores unloaded buffers.
